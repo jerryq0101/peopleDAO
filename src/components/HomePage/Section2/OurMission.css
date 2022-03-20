@@ -1,0 +1,28 @@
+.Our-Mission {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15em 2em 20em 2em;
+}
+
+.Mission-smol {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+
+.Mission-Title {
+    font-family: 'Inter';
+    font-weight: 800;
+    font-size: 50px;
+    line-height: 61px;
+    margin-bottom: 1.5em;
+}
+
+.Mission-Desc {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 47px;
+}

@@ -1,0 +1,113 @@
+.Contribution-Page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 200px 0 300px 0;
+}
+
+.Contribution-MiniPage {
+    max-width: 482px;
+}
+
+.Contribution-Title {
+    text-align: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 50px;
+    line-height: 61px;
+}
+
+.Contribution-Input {
+    margin-top: 14px;
+    height: 67px;
+    padding: 0 0 0 0.4em;
+    width:100%;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    /* Text elements inside the box */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    transition: all ease 0.2s;
+}
+
+.Contribution-SplitBtn {
+    margin-top: 14px;
+    display: flex;
+    flex-direction: row;
+}
+
+    .Contribution-submitbtn {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 36px;
+        text-align: center;
+
+        color: #FFFFFF;
+
+        min-width: 258px;
+        height: 57px;
+        background: #000000;
+        border: 1px solid #000000;
+        box-sizing: border-box;
+        border-radius: 8px;
+        transition: background ease 0.5s;
+    }
+
+    button:hover {
+        background: radial-gradient(157.84% 188.93% at 52.78% 42.16%, #FF6C6C 19.44%, rgba(255, 198, 131, 0.93) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;    
+    }
+
+    .Contribution-Convert {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 36px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        color: #FFFFFF;
+
+        min-width: 210px;
+        height: 57px;
+        background: #000000;
+        border: 1px solid #000000;
+        box-sizing: border-box;
+        border-radius: 8px;
+    }
+
+.Contribution-buffer {
+    margin: 7px;
+}
+
+.Contribution-Tokendesc {
+    margin-top: 3em;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #000000;
+}
+
+
+input[type=number]:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 4px rgba(0, 0, 0, 0.25);
+}

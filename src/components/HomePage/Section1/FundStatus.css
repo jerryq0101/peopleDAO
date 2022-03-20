@@ -1,0 +1,22 @@
+
+.Fund-Status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color:none;
+}
+
+.Fund-Progress {
+
+}
+
+.Fund-Money-Status {
+    margin-top: 22px;
+    margin-bottom: 22px;
+    display: flex;
+    flex-direction: row;
+}
+
+.FundStatus-Gap {
+    margin: 22.5px;
+}

@@ -1,0 +1,33 @@
+.Ether-Fund-box {
+    width: 597px;
+    height: 124px;
+    background-color: none;
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+
+    /* // Font for FUNDED */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 48px;
+}
+
+.Ether-Fund-Currency {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 50px;
+    line-height: 61px;
+    color: #7B7B7B;
+}
+
+.Ether-Fund-Spacing {
+    margin: 27px;
+}

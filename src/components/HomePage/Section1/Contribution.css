@@ -1,0 +1,26 @@
+.Contribution {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 9em;
+}
+
+.Contribution-btn {
+    background: #F2F5C8;
+    box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    width: 504px;
+    height: 102px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Contribution-btn-text {
+    /* Text thing */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 48px;
+}

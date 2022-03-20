@@ -1,0 +1,31 @@
+.Title-Title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10em 0 10em 0;
+    background-color: none;
+}
+
+.Title-Big {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 70px;
+    line-height: 85px;
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    letter-spacing: -0.01em;
+}
+
+.Title-Desc {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 42px;
+}
+
+.Gray {
+    color: #a0a0a0;
+}

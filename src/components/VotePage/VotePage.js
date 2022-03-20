@@ -2,7 +2,6 @@ import React, { useEffect, useState} from 'react'
 import "./Vote.css"
 import ComingSoon from "../ComingSoon.js"
 import {ethers} from 'ethers'
-import {ThirdwebSDK, VoteModule} from '@3rdweb/sdk'
 import sdk from '../scripts/initialize-sdk.mjs';
 
 export default function VotePage() {
@@ -38,24 +37,10 @@ export default function VotePage() {
         } catch (error) {
             console.log("Failed to get proposals", error);
         }
-    }, [])
-
-    useEffect(async () => {
-        if (!proposals.length) {
-            return;
+        if (proposals[0].state === 4){
+            await voteModule.execute(proposals[0].proposalId);
         }
-        try {
-            const hasVoted = await voteModule.hasVoted(proposals[0].proposalsId, address);
-            setHasVoted(hasVoted);
-            if (hasVoted) {
-                console.log("User already Voted")
-            } else {
-                console.log("User hasn't voted yet")
-            }
-        } catch (error) {
-            console.log("Failed to check if wallet has voted", error);
-        }
-    }, [proposals, address])
+    }, []);
 
     return (
         <div>

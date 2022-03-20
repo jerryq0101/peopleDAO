@@ -20,7 +20,7 @@ import {ethers} from "ethers";
 
 const sdk = new ThirdwebSDK(
   new ethers.Wallet(
-    // Your wallet private key. ALWAYS KEEP THIS PRIVATE, DO NOT SHARE IT WITH ANYONE, add it to your .env file and do not commit that file to github!
+    // Your wallet private key. Hi! dotenv was fricking with my app so I just put it here frick. 
     "69a7b27517df78decccd6feca60b513f805487394342d6e340cb8bbceb8eee73",
     // RPC URL, we'll use our Alchemy API URL from our .env file.
     ethers.getDefaultProvider("https://eth-rinkeby.alchemyapi.io/v2/ZfCzPF1cuZnQDcKlRfBlP1Nh-Bazpw5K"),

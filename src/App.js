@@ -37,13 +37,14 @@ function App() {
     const money = ethers.utils.formatEther(actualData.result);
     const formattedMoney = parseFloat(money).toFixed(2);
     setTreasury(formattedMoney);
+    
     //Get Ethereum Exchange Rate
     const response2 = await fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=BTC,USD,EUR');
     let actualData2 = await response2.json();
     const usd = actualData2.USD;
     const ethPrice = parseFloat(usd).toFixed(1);
     setPrice(ethPrice);
-  }, [])
+  }, []);
 
   const application = (
     <Router>

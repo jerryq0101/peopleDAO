@@ -5,7 +5,7 @@ import ProgressBar from './ProgressBar'
 
 export default function FundStatus(props) {
     const etherAmount = props.ether;
-    const dollarAmount = props.exchangeRate*etherAmount;
+    const dollarAmount = parseFloat(props.exchangeRate*etherAmount).toFixed(1);
     const percentage = (etherAmount / 10) *100;
     return (
         <div className="Fund-Status">

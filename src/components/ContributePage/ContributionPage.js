@@ -10,7 +10,7 @@ export default function ContributionPage(props) {
     let provider = {};
     let signer = {};
     let address = ""
-    const saleContractAddress = "0x1E73b6847A224e48b7F3FbC2301F5DFb0eA502a9";
+    const saleContractAddress = "0x9A7a3FE1eE6C6Bc47958BFE17492EE0Bdd935Eab";
     let salesContract = {};
     let realSalesContract = {};
     const [executeStart, setExecuteStart] = useState(false);
@@ -31,7 +31,7 @@ export default function ContributionPage(props) {
         salesContract = new ethers.Contract(saleContractAddress, file.abi, provider);
         //console.log("Contract:", salesContract)
         realSalesContract = salesContract.connect(signer);
-        //console.log("realContract:", realSalesContract);
+        console.log("realContract:", realSalesContract);
     })();
 
 

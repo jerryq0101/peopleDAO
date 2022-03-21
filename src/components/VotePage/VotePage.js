@@ -11,8 +11,8 @@ export default function VotePage() {
     const [proposals, setProposals] = useState([]);
     const [isVoting, setIsVoting] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
-    const voteModule = sdk.getVoteModule("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
-    const tokenModule = sdk.getTokenModule("0x13531C50c086D5330E93D95B691EC2f88363cF61");
+    const voteModule = sdk.getVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
+    const tokenModule = sdk.getToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
     const crowdfundingAddress = "0x9A7a3FE1eE6C6Bc47958BFE17492EE0Bdd935Eab";
 
     useEffect(() => {
@@ -34,10 +34,11 @@ export default function VotePage() {
             const proposals = await voteModule.getAll();
             setProposals(proposals);
             console.log("Proposals:", proposals);
+            
         } catch (error) {
             console.log("Failed to get proposals", error);
         }
-        if (proposals[0].state === 4){
+        if (proposals[0].state == 4){
             await voteModule.execute(proposals[0].proposalId);
         }
     }, []);

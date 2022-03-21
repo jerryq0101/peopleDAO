@@ -1,4 +1,4 @@
-import { ThirdwebSDK } from "@3rdweb/sdk";
+import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import {ethers} from "ethers";
 
 // //Importing and configuring our .env file that we use to securely store our environment variables
@@ -29,8 +29,8 @@ const sdk = new ThirdwebSDK(
 
 (async () => {
   try {
-    const apps = await sdk.getApps();
-    console.log("Your app address is:", apps[0].address);
+    // const apps = await sdk.getApps();
+    // console.log("Your app address is:", apps[0].address);
   } catch (err) {
     console.error("Failed to get apps from the sdk", err);
   }

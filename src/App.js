@@ -4,28 +4,14 @@ import Vote from './components/VotePage/VotePage'
 import {Footer} from './components/footer/Footer'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ContributionPage from './components/ContributePage/ContributionPage';
-import {ThirdwebProvider} from '@3rdweb/react'
+import {ChainId, ThirdwebProvider} from '@thirdweb-dev/react'
 import { useEffect , useState} from 'react';
 import {ethers} from 'ethers'
 
 function App() {
   const [price, setPrice] = useState(0);
   const [treasury, setTreasury] = useState(0);
-  const supportedChainIds = [4, 80001];
-
-  const connectors = {
-    injected: {},
-    magic: {
-      apiKey: "pk_...",
-      chainId: 1, 
-    },
-    walletconnect: {},
-    walletlink: {
-      appName: "thirdweb - demo",
-      url: "https://thirdweb.com",
-      darkMode: false,
-    },
-  };
+  
 
   useEffect(async () => {
     // Get Treasury $$$
@@ -72,8 +58,7 @@ function App() {
   );
   return (
     <ThirdwebProvider
-      connectors={connectors}
-      supportedChainIds={supportedChainIds}
+      desiredChainId={ChainId.Rinkeby}
     >
       {application}
     </ThirdwebProvider>

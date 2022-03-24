@@ -11,8 +11,11 @@
     text-align: center;
 }
 
-.teal {
-    color: #219F94;
+.black {
+    color: black;
+    font-size: 40px;
+    font-family: Inter;
+    font-weight: 700;
 }
 
 .description {

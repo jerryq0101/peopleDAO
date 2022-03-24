@@ -5,10 +5,10 @@ function ComingSoon(){
     return(
         <div className="coming-soon">
             <div className="Title">
-                    <div className='teal'>[</div>Coming soon<div className='teal'>]</div>
+                    <div className='black'>[</div>Coming soon<div className='black'>]</div>
             </div>
             <div className="description">
-                Team is working hard to bring DemeterDAO to fruition,
+                Working hard to bring PeopleDAO to fruition,
                 the website, the partnerships and the legal stuff. 
             </div>
         </div>

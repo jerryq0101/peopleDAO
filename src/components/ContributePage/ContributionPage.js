@@ -1,16 +1,18 @@
-import React, {Component, useEffect, useState} from 'react'
-import './Contribution.css'
-import {ethers} from 'ethers'
-import file from './PPL_CrowdSale.json'
+import React, {Component, useEffect, useState} from 'react';
+import './Contribution.css';
+import {ethers} from 'ethers';
+import file from './PPL_CrowdSale.json';
+import sdk from '../scripts/initialize-sdk.mjs';
 
 export default function ContributionPage(props) {
     const [treasury, setTreasury] = useState(0);
     const [donation, setDonation] = useState(0);
+    const [tokensLeft, setTokensLeft] = useState(0);
     const price = props.exchangeRate;
     let provider = {};
     let signer = {};
     let address = ""
-    const saleContractAddress = "0x9A7a3FE1eE6C6Bc47958BFE17492EE0Bdd935Eab";
+    const saleContractAddress = "0xbe83b5F628b2dD757b2D35D276588812a17Da45A";
     let salesContract = {};
     let realSalesContract = {};
     const [executeStart, setExecuteStart] = useState(false);
@@ -34,11 +36,38 @@ export default function ContributionPage(props) {
         console.log("realContract:", realSalesContract);
     })();
 
+    useEffect(async () => {
+        try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x4' }],
+            });
+          } catch (switchError) {
+            // This error code indicates that the chain has not been added to MetaMask.
+            if (switchError.code === 4902) {
+              try {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [
+                    {
+                      chainId: '0x4',
+                      chainName: 'Rinkeby Test Network',
+                      rpcUrls: ['https://rinkeby.infura.io/v3/'] /* ... */,
+                    },
+                  ],
+                });
+              } catch (addError) {
+                // handle "add" error
+              }
+            }
+            // handle other "switch" errors
+          }
+    }, [])
 
-    useEffect(async ()=> {
+    useEffect(async () => {
         // Get Treasury $$$
         const etherscanKey = "WI2YJVC8ZC1NGFBJIAANFAD1CWY3DD4F7W";
-        const treasuryAddy = "0x328f4fade8026b82D0fcA401BDc4A230Cca77664";
+        const treasuryAddy = "0x7b06BDa105ef9A9028c9f7AA749B856754a4C66a";
         const response = await fetch(`https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${treasuryAddy}&tag=latest&apikey=${etherscanKey}`);
         let actualData = await response.json();
             //console.log(actualData);
@@ -46,6 +75,10 @@ export default function ContributionPage(props) {
         const formattedMoney = parseFloat(money).toFixed(2);
         setTreasury(formattedMoney);
 
+         // Tokens left in the crowdfunding 
+        const tokenContract = sdk.getToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
+        const balanceInCrowd = await tokenContract.balanceOf("0xbe83b5F628b2dD757b2D35D276588812a17Da45A");
+        setTokensLeft(balanceInCrowd.displayValue);
     }, [executeEnd])
 
     async function handleSubmit(){
@@ -81,6 +114,9 @@ export default function ContributionPage(props) {
                 {/* // Figure out how to get ether in contract on here. */}
                 <div className="Contribution-Title">
                     Ξ {treasury} Funded
+                </div>
+                <div className="Contribution-TokensLeft">
+                    $PPL {tokensLeft} left
                 </div>
                 <input className="Contribution-Input" type="number" onChange={handleChange} value={donation}>
                 </input>

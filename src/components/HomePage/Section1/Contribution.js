@@ -8,11 +8,9 @@ export default function Contribution() {
         <div className="Contribution">
             <Link to="/contribute">
                 <div className="Contribution-btn">
-                    
-                        <div className="Contribution-btn-text">
+                        <div className="Contribution-btn-text ">
                             Contribute
                         </div>
-                    
                 </div>
             </Link>
         </div>

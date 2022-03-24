@@ -1,5 +1,6 @@
 import React from "react";
 import './footer.css'
+import logo from '../Logo.png'
 
 export const Footer = ({}) => {
   return (
@@ -17,12 +18,12 @@ export const Footer = ({}) => {
             <div class="footer-item footer-item-1">About us</div>
             <div class="footer-item footer-item-2">Mission</div>
             <div class="footer-item footer-item-3">Contact us</div>
-            <div class="footer-item footer-item-4">Partners</div>
+            <div class="footer-item footer-item-4"></div>
             <div class="footer-item footer-item-5"></div>
         </div>
 
-        <div class="demeter-logo" >
-            <img src="https://file.rendit.io/n/hCDRYLJBgUEa7UC3uRFL.svg" />
+        <div class="people-logo" >
+            <img src={logo} />
         </div>
     </div>
     

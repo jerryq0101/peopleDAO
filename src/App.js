@@ -7,16 +7,19 @@ import ContributionPage from './components/ContributePage/ContributionPage';
 import {ChainId, ThirdwebProvider} from '@thirdweb-dev/react'
 import { useEffect , useState} from 'react';
 import {ethers} from 'ethers'
+import sdk from './components/scripts/initialize-sdk.mjs'
+import MintPage from './components/MintPage/MintPage.js';
 
 function App() {
   const [price, setPrice] = useState(0);
   const [treasury, setTreasury] = useState(0);
+  const [tokensLeft, setTokensLeft] = useState(0);
   
 
   useEffect(async () => {
     // Get Treasury $$$
     const etherscanKey = "WI2YJVC8ZC1NGFBJIAANFAD1CWY3DD4F7W";
-    const treasuryAddy = "0x328f4fade8026b82D0fcA401BDc4A230Cca77664";
+    const treasuryAddy = "0x7b06BDa105ef9A9028c9f7AA749B856754a4C66a";
     const response = await fetch(`https://api-rinkeby.etherscan.io/api?module=account&action=balance&address=${treasuryAddy}&tag=latest&apikey=${etherscanKey}`);
     let actualData = await response.json();
         //console.log(actualData);
@@ -41,6 +44,9 @@ function App() {
           <Switch>  {/*  A switch statement to select the route of the website */}
             <Route exact path="/">
               <HomePage exchangeRate={price} ether={treasury}/>
+            </Route>
+            <Route exact path="/mint">
+              <MintPage />
             </Route>
             <Route exact path="/vote">
               <Vote />

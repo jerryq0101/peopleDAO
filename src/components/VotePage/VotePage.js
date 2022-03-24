@@ -28,20 +28,26 @@ export default function VotePage() {
         })
     }, [])
 
-    // Get all the proposals from the contract.
+    // Get all the proposals from the contract and execute
     useEffect (async () => {
         try {
-            const proposals = await voteModule.getAll();
-            setProposals(proposals);
-            console.log("Proposals:", proposals);
-            
+            const propos = await voteModule.getAll();
+            setProposals(propos);
+            console.log("Proposals: ", propos);
+            // Get the state of the thing
+            const state9 = await propos[8].state;
+            console.log("Proposal 8 state:", state9);
+            // Execute if state if 4
+            if (state9 === 4){
+                const id = await propos[8].proposalId;
+                const ex = await voteModule.execute(id);
+                console.log(ex);
+            }
         } catch (error) {
-            console.log("Failed to get proposals", error);
-        }
-        if (proposals[0].state == 4){
-            await voteModule.execute(proposals[0].proposalId);
+            console.log("Failed to get and execute proposals", error);
         }
     }, []);
+    
 
     return (
         <div>

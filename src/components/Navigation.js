@@ -10,16 +10,18 @@ export default function Navigation() {
   return (
     <div>
       <header>
-        <Link to="/">
-        <div class="logo">
-            <img class="logo-img" src= {logo} alt="logo" />
-            <div class="logo-text">PeopleDAO</div>
-        </div>
+        <Link to="/" style={{textDecoration: 'none' }}>
+          <div class="logo">
+              <img class="logo-img" src= {logo} alt="logo" />
+              <div class="logo-text">PeopleDAO</div>
+          </div>
         </Link>
          <nav>
              <ul class="nav_links">
-                 <li>Request</li>
-                 <Link to="/vote"><li><a href="#">Vote</a></li></Link>
+                 <Link to="/mint"><li>Mint</li></Link>
+                 <Link to="/vote" style={{textDecoration: 'none' }}>
+                   <li><a href="#">Vote</a></li>
+                  </Link>
                  <li><a href="#">Docs</a></li>
              </ul>
          </nav>

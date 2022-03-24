@@ -2,13 +2,18 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    
 }
 
 li, a, button {
     font-family: "Inter";
     font-weight: 500;
     text-decoration: none;
+    color: black;
+    transition: 0.5s;
+}
+
+Link:hover {
+    color: #219F94;
 }
 
 header {
@@ -16,6 +21,7 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 5em 5%;
+    text-decoration: none;
 }
 
 .logo {
@@ -24,7 +30,7 @@ header {
     display: flex;
     font-size: 30px;
     font-weight: 600;
-
+    text-decoration: none;
 }
     .logo-img {
         max-height: 55px;
@@ -34,7 +40,6 @@ header {
         margin-left: 16px;
         margin-top: 15px;
     }
-
 
 .nav_links {
     list-style: none;

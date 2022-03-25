@@ -16,7 +16,6 @@ export default function ProgressBar(props) {
     return (
         <div className="progress">
             <div className="progress-done" style={style}>
-
             </div>
         </div>
     )

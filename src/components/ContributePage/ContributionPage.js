@@ -3,8 +3,18 @@ import './Contribution.css';
 import {ethers} from 'ethers';
 import file from './PPL_CrowdSale.json';
 import sdk from '../scripts/initialize-sdk.mjs';
+import logo from '../Logo.png'
 
 export default function ContributionPage(props) {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 4500)
+    }, [])
+
+    
     const [treasury, setTreasury] = useState(0);
     const [donation, setDonation] = useState(0);
     const [tokensLeft, setTokensLeft] = useState(0);
@@ -95,7 +105,7 @@ export default function ContributionPage(props) {
                 setExecuteStart(false);
                 setExecuteEnd(true);
                 setTimeout(()=>setExecuteEnd(false), 1000)
-            }, 9000)
+            }, 10000)
         })
     }
 
@@ -106,6 +116,14 @@ export default function ContributionPage(props) {
         } else {
             setDonation(event.target.value);
         }
+    }
+
+    if (loading) {
+        return (
+            <div className="loader-container">
+                <img src={logo} className="loader"></img>
+            </div>
+        )
     }
 
     return (

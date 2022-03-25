@@ -9,13 +9,13 @@ import { useEffect , useState} from 'react';
 import {ethers} from 'ethers'
 import sdk from './components/scripts/initialize-sdk.mjs'
 import MintPage from './components/MintPage/MintPage.js';
+import ScrollToTop from './ScrollToTop.js';
 
 function App() {
   const [price, setPrice] = useState(0);
   const [treasury, setTreasury] = useState(0);
   const [tokensLeft, setTokensLeft] = useState(0);
   
-
   useEffect(async () => {
     // Get Treasury $$$
     const etherscanKey = "WI2YJVC8ZC1NGFBJIAANFAD1CWY3DD4F7W";
@@ -37,6 +37,7 @@ function App() {
 
   const application = (
     <Router>
+      <ScrollToTop />
       <div className="App">
         {/* Navbar is always going to be here */}
         <Navigation />

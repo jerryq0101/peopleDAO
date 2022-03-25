@@ -22,7 +22,7 @@ export default function Navigation() {
                  <Link to="/vote" style={{textDecoration: 'none' }}>
                    <li><a href="#">Vote</a></li>
                   </Link>
-                 <li><a href="#">Docs</a></li>
+                 <li><a target="_blank" href= "https://ppldao.notion.site/PeopleDAO-b9afff6c05f94269a69d31cf538d58b8">Docs</a></li>
              </ul>
          </nav>
          <a class="cta"><Connect /></a>

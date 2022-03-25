@@ -1,0 +1,35 @@
+.MintPage {
+    display:  flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 8vh;
+}
+
+.Mint-Item {
+    padding: 50px;
+    border: 2px solid gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.NFT-Text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.NFT-Title {
+    font-size: larger;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 40px;
+}
+
+.NFT-Desc {
+    font-weight: 400;
+    font-size: 17px;
+    margin-bottom: 1.9vh;
+}

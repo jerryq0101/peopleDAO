@@ -1,0 +1,12 @@
+.Button-Style {
+    padding: 10px 20px;
+    text-align: center;
+    background-color: black;
+    color: white;
+    width: 100%;
+    border-radius: 0;
+}
+
+button:disabled {
+    background-color: gray;
+}

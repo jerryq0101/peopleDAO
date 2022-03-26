@@ -8,13 +8,20 @@ li, a, button {
     font-family: "Inter";
     font-weight: 500;
     text-decoration: none;
-    color: black;
     transition: 0.5s;
 }
 
-Link:hover {
+a:visited {
+    text-decoration: none;
+}
+.links {
+    color: black;
+}
+.links:hover {
     color: #219F94;
 }
+
+
 
 header {
     display: flex;
@@ -39,6 +46,7 @@ header {
     .logo-text {
         margin-left: 16px;
         margin-top: 15px;
+        color: black;
     }
 
 .nav_links {

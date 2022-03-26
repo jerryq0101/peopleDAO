@@ -1,6 +1,7 @@
 import React from "react";
 import './footer.css'
 import logo from '../Logo.png'
+import {Link} from 'react-router-dom'
 
 export const Footer = ({}) => {
   return (
@@ -8,10 +9,10 @@ export const Footer = ({}) => {
       <div class="footer">
         <div class="footer-container-1">
             <div class="footer-item footer-item-1">Resources</div>
-            <div class="footer-item footer-item-2">Home</div>
-            <div class="footer-item footer-item-3">Vote</div>
-            <div class="footer-item footer-item-4">Treasury</div>
-            <div class="footer-item footer-item-5">Docs</div>
+            <div class="footer-item footer-item-2"><Link to="/" >Home</Link></div>
+            <div class="footer-item footer-item-3"><Link to="/vote">Vote</Link></div>
+            <div class="footer-item footer-item-4"><Link to="/mint">Mint</Link></div>
+            <div class="footer-item footer-item-5"><a target="_blank" href= "https://ppldao.notion.site/PeopleDAO-b9afff6c05f94269a69d31cf538d58b8">Docs</a></div>
         </div>
 
         <div class="footer-container-2">

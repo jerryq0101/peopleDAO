@@ -18,11 +18,11 @@ export default function Navigation() {
         </Link>
          <nav>
              <ul class="nav_links">
-                 <Link to="/mint"><li>Mint</li></Link>
+                 <Link to="/mint"><li className="links">Mint</li></Link>
                  <Link to="/vote" style={{textDecoration: 'none' }}>
-                   <li><a href="#">Vote</a></li>
+                   <li className="links">Vote</li>
                   </Link>
-                 <li><a target="_blank" href= "https://ppldao.notion.site/PeopleDAO-b9afff6c05f94269a69d31cf538d58b8">Docs</a></li>
+                 <a target="_blank" href= "https://ppldao.notion.site/PeopleDAO-b9afff6c05f94269a69d31cf538d58b8"><li className="links">Docs</li></a>
              </ul>
          </nav>
          <a class="cta"><Connect /></a>

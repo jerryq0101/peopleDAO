@@ -3,19 +3,31 @@
     flex-direction: row;
     justify-content: center;
     margin-bottom: 9em;
+    background-color: none;
 }
 
 .Contribution-btn {
-    background: #219F94;
+    background-color: #219F94;
     color: white;
-    box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
     width: 504px;
     height: 102px;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.6s;
+    box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.25);
+}
 
+.Contribution-btn:hover{    
+    color: rgba(255, 255, 255, 0.83);
+    background-color: #35CABD;
+}
+
+.Contribution-btn:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(3px);
+    box-shadow: -2px 1px 4px rgba(0, 0, 0, 0.25);
 }
 
 .Contribution-btn-text {

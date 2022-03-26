@@ -3,7 +3,7 @@
 }
 
 .Title {
-    font-size: 30px;
+    font-size: 60px;
     font-family: Inter;
     font-weight: 600;
     margin: 0 auto 1.5em auto;
@@ -19,7 +19,7 @@
 }
 
 .description {
-    font-size: 18px;
+    font-size: 25px;
     font-family: Inter;
     font-weight: 300;
     text-align: center;

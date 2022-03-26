@@ -8,8 +8,7 @@ function ComingSoon(){
                     <div className='black'>[</div>Coming soon<div className='black'>]</div>
             </div>
             <div className="description">
-                Working hard to bring PeopleDAO to fruition,
-                the website, the partnerships and the legal stuff. 
+                Working to fix this annoying governance bug, will be implemented sometime.  
             </div>
         </div>
     )

@@ -1,13 +1,14 @@
 .MintPage {
     display:  flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    margin-bottom: 8vh;
+    justify-content: center;
+    margin-bottom: 6vh;
 }
 
 .Mint-Item {
     padding: 50px;
     border: 2px solid gray;
+    margin: 2vh;
     display: flex;
     flex-direction: column;
     align-items: center;

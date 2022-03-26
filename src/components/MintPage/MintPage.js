@@ -12,7 +12,7 @@ export default function MintPage() {
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 2000)
+        }, 1500)
     }, [])
 
     if (loading) {
@@ -32,7 +32,7 @@ export default function MintPage() {
                         People_Passport
                     </div>
                     <div className="NFT-Desc">
-                        Once you donated-Press button below to mint!
+                        Once you donated: Press button below to mint!
                     </div>
                     <ClaimButton req={0.000001} id='1'/>
                 </div>

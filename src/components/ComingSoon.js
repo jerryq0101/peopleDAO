@@ -8,7 +8,7 @@ function ComingSoon(){
                     <div className='black'>[</div>Coming soon<div className='black'>]</div>
             </div>
             <div className="description">
-                Working to fix this annoying governance bug, will be implemented sometime.  
+                Working to fix this annoying governance bug, will be implemented sometime :) <br></br> Thanks for the understanding.  
             </div>
         </div>
     )

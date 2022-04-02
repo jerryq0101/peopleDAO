@@ -14,7 +14,6 @@ import ScrollToTop from './ScrollToTop.js';
 function App() {
   const [price, setPrice] = useState(0);
   const [treasury, setTreasury] = useState(0);
-  const [tokensLeft, setTokensLeft] = useState(0);
   
   useEffect(async () => {
     // Get Treasury $$$

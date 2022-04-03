@@ -1,4 +1,5 @@
 .progress2 {
+    padding: 0;
     width: 20vh;
     height: 3.5vh;
     background: #FFFFFF;
@@ -8,7 +9,8 @@
 }
 
 .progress-done2 {
-    background: linear-gradient(90deg, #A2A2A2 0%, #000000 100%);
+    margin: 0;
+    background: linear-gradient(180deg, #A2A2A2 0%, #000000 100%);
     border-radius: 5px;
     box-sizing: border-box;
     height: 3.5vh;

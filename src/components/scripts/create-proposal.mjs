@@ -8,7 +8,7 @@ const retrievalContract = "0x7b06BDa105ef9A9028c9f7AA749B856754a4C66a";
 (async () => {
     try {
         // Create proposal to mint 420,000 new token to the treasury.
-      const amount = 10_000;
+      const amount = 21000;
       const description = "Should the DAO mint an additional " + amount + " tokens into the treasury?";
       const executions = [
         {

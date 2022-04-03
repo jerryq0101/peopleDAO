@@ -4,7 +4,6 @@
 
 .VotePage-Innerblock {
     padding: 0 5% 0 5%;
-    background-color: aliceblue;
 }
 
 .VotePage-Proposals-NonActive {
@@ -43,3 +42,31 @@
     .VotePage-card-choice {
         margin: 0 5% 0 0;
     }
+
+
+.VotePage-Submit {
+    font-size: 20px;
+    font-family: 400;
+    width: 15vh;
+    padding: 1%;
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    transition: 0.5s;
+    margin: 0 1vh 0 0;
+}
+
+    .VotePage-Submit:hover {
+        background-color: white;
+        border: 1px solid white;
+        transform: translateY(2px);
+    }
+    .VotePage-Submit:active {
+        
+    }
+    
+.VotePage-Submit-desc {
+    font-size: 13px;
+    color: gray;
+}

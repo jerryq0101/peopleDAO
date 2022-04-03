@@ -1,22 +1,24 @@
 import React, { useEffect, useState} from 'react'
 import "./VotePage.css"
 import ComingSoon from "../ComingSoon.js"
-import {ethers} from 'ethers'
 import sdk from '../scripts/initialize-sdk.mjs';
+import {ethers} from 'ethers'
 import { AddressZero} from '@ethersproject/constants'
-import { ProposalState } from '@thirdweb-dev/sdk';
+import { ProposalState, ThirdwebSDK } from '@thirdweb-dev/sdk';
 import logo from '../Logo.png'
 import ProgressBar from './ProgressBar.js';
 
 export default function VotePage() {
-    let provider = {};
     let signer = {};
     let address = ""
     const [proposals, setProposals] = useState([]);
     const [isVoting, setIsVoting] = useState(false);
     const [hasVoted, setHasVoted] = useState(false);
-    const voteModule = sdk.getVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
-    const token = sdk.getToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const sdk = new ThirdwebSDK(provider)
+    let vote = sdk.getVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
+    let token = sdk.getToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
+
     const crowdfundingAddress = "0x9A7a3FE1eE6C6Bc47958BFE17492EE0Bdd935Eab";
     const [totalSupply, setTotalSupply] = useState(0);
     const [displayed, setDisplayed] = useState([]);
@@ -29,8 +31,8 @@ export default function VotePage() {
     }, [])
 
     useEffect(() => {
-        provider = new ethers.providers.Web3Provider(window.ethereum);
         console.log("Provider: ", provider);
+        console.log("Contract:", vote);
         (async () => {
             await provider.send("eth_requestAccounts", );
         })();
@@ -39,12 +41,13 @@ export default function VotePage() {
             console.log("Address of Signer:", addy)
             address = addy;
         })
-    }, [])
+        sdk.updateSignerOrProvider(signer);
+    }, [provider])
 
     // Get all the proposals from the contract and execute
     useEffect (async () => {
         try {
-            const propos = await voteModule.getAll();
+            const propos = await vote.getAll();
             setProposals(propos);
             console.log("Proposals: ", propos);
         } catch (error) {
@@ -64,7 +67,8 @@ export default function VotePage() {
     useEffect(() => {
         
         setDisplayed(
-            proposals.filter((proposal)=> {
+            proposals
+            .filter((proposal)=> {
                 if (proposal.state === 1) {
                     return true;
                 } 
@@ -134,7 +138,15 @@ export default function VotePage() {
                 setIsVoting(true);
 
                 // lets get the votes from the form for the values
-                const votes = proposals.map((proposal) => {
+                const votes = 
+                  proposals
+                .filter((proposal)=> {
+                    if (proposal.state === 1) {
+                        return true;
+                    } 
+                    return false;
+                })
+                .map((proposal) => {
                   const voteResult = {
                     proposalId: proposal.proposalId,
                     //abstain by default
@@ -157,22 +169,25 @@ export default function VotePage() {
                 try {
                   //we'll check if the wallet still needs to delegate their tokens before they can vote
                   const delegation = await token.getDelegationOf(address);
-                  // if the delegation is the 0x0 address that means they have not delegated their governance tokens yet
+                  console.log("Delegation:", delegation);
+                  // // if the delegation is the 0x0 address that means they have not delegated their governance tokens yet
                   if (delegation === AddressZero) {
-                    //if they haven't delegated their tokens yet, we'll have them delegate them before voting
+                  //   //if they haven't delegated their tokens yet, we'll have them delegate them before voting
                     await token.delegateTo(address);
                   }
                   // then we need to vote on the proposals
                   try {
                     await Promise.all(
-                      votes.map(async ({ proposalId, vote: _vote }) => {
+                      votes.map(async ({ proposalId, vote:_vote }) => {
                         // before voting we first need to check whether the proposal is open for voting
                         // we first need to get the latest state of the proposal
-                        const proposal = await _vote.get(proposalId);
+                        console.log("ID", proposalId);
+                        const proposal = await vote.get(proposalId);
+                        console.log("Proposal", proposal)
                         // then we check if the proposal is open for voting (state === 1 means it is open)
                         if (proposal.state === 1) {
                           // if it is open for voting, we'll vote on it
-                          return _vote.vote(proposalId, _vote);
+                          return vote.vote(proposalId, _vote, "I Support this");
                         }
                         // if the proposal is not open for voting we just return nothing, letting us continue
                         return;
@@ -182,13 +197,13 @@ export default function VotePage() {
                       // if any of the propsals are ready to be executed we'll need to execute them
                       // a proposal is ready to be executed if it is in state 4
                       await Promise.all(
-                        votes.map(async ({ proposalId, vote: _vote }) => {
+                        votes.map(async ({ proposalId }) => {
                           // we'll first get the latest state of the proposal again, since we may have just voted before
-                          const proposal = await _vote.get(proposalId);
+                          const proposal = await vote.get(proposalId);
 
                           //if the state is in state 4 (meaning that it is ready to be executed), we'll execute the proposal
                           if (proposal.state === 4) {
-                            return _vote.execute(proposalId);
+                            return vote.execute(proposalId);
                           }
                         })
                       );
@@ -216,7 +231,7 @@ export default function VotePage() {
                         No Active proposals at the moment, feel free to initiate one by interacting with the contract
                     </div>
               }
-              <button disabled={isVoting || hasVoted} type="submit">
+              <button disabled={isVoting || hasVoted} type="submit" className="VotePage-Submit">
                 {isVoting
                   ? "Voting..."
                   : hasVoted
@@ -224,7 +239,7 @@ export default function VotePage() {
                     : "Submit Votes"}
               </button>
               {!hasVoted && (
-                <small>
+                <small className="VotePage-Submit-desc">
                   This will trigger multiple transactions that you will need to
                   sign.
                 </small>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState} from 'react'
-import "./Vote.css"
+import "./VotePage.css"
 import ComingSoon from "../ComingSoon.js"
 import {ethers} from 'ethers'
 import sdk from '../scripts/initialize-sdk.mjs';
 import { AddressZero} from '@ethersproject/constants'
 import { ProposalState } from '@thirdweb-dev/sdk';
 import logo from '../Logo.png'
+import ProgressBar from './ProgressBar.js';
 
 export default function VotePage() {
     let provider = {};
@@ -17,6 +18,7 @@ export default function VotePage() {
     const voteModule = sdk.getVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
     const token = sdk.getToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
     const crowdfundingAddress = "0x9A7a3FE1eE6C6Bc47958BFE17492EE0Bdd935Eab";
+    const [totalSupply, setTotalSupply] = useState(0);
     const [displayed, setDisplayed] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -45,16 +47,23 @@ export default function VotePage() {
             const propos = await voteModule.getAll();
             setProposals(propos);
             console.log("Proposals: ", propos);
-            
         } catch (error) {
             console.log("Failed to get and execute proposals", error);
         }
+
+        try {
+          const totalSup = await token.totalSupply();
+          const totalSupBN = await totalSup.value._hex;
+          const totalSupInt = await parseInt(totalSupBN, 16);
+          await setTotalSupply(totalSupInt);
+       } catch (error) {
+         console.error("Failed to set total supply")
+       }
     }, []);
     
     useEffect(() => {
         
         setDisplayed(
-            
             proposals.filter((proposal)=> {
                 if (proposal.state === 1) {
                     return true;
@@ -62,36 +71,48 @@ export default function VotePage() {
                 return false;
             })
             .map((proposal) => {
+                    const forVotesBN = proposal.votes[1].count._hex;
+                    const forVotesInt = parseInt(forVotesBN, 16);
+                    console.log("For Votes for this proposal: ", forVotesInt);
+                    const percentageFinished = forVotesInt / totalSupply * 100;
+                    console.log("Percentage Finished:", percentageFinished);
+                    
                     return (
-                        <div key={proposal.proposalId} className="card">
-                            <h5>{proposal.description}</h5>
-                            <div>
-                                {proposal.votes.map(({ type, label }) => {  
-                                        return (
-                                            <div key={type}>
-                                                <input
-                                                    type="radio"
-                                                    id={proposal.proposalId + "-" + type}
-                                                    name={proposal.proposalId}
-                                                    value={type}
-                                                    //default the "abstain" vote to checked
-                                                    defaultChecked={type === 2}
-                                                />
-                                                <label htmlFor={proposal.proposalId + "-" + type}>
-                                                {label}
-                                                </label>
-                                            </div>
-                                        );
-                                    }
-                                )}
+                        <div key={proposal.proposalId} className="VotePage-card">
+                            <div className="VotePage-card-left">
+                              <h5 className="VotePage-card-Query">{proposal.description}</h5>
+                              <div className="VotePage-card-Choices">
+                                  {proposal.votes.map(({ type, label }) => {  
+                                          return (
+                                              <div key={type} className="VotePage-card-choice">
+                                                  <input
+                                                      type="radio"
+                                                      id={proposal.proposalId + "-" + type}
+                                                      name={proposal.proposalId}
+                                                      value={type}
+                                                      //default the "abstain" vote to checked
+                                                      defaultChecked={type === 2}
+                                                  />
+                                                  <label htmlFor={proposal.proposalId + "-" + type}>
+                                                  {label}
+                                                  </label>
+                                              </div>
+                                          );
+                                      }
+                                  )}
+                              </div>
                             </div>
+                            <div className="VotePage-card-right">
+                              <ProgressBar done={percentageFinished} />
+                            </div>
+                            
                         </div>
                     )
                 
             })
         )
         console.log("Displayed Elements:", displayed);
-    }, [proposals])
+    }, [proposals, totalSupply])
     
     if (loading) {
         return (
@@ -102,10 +123,9 @@ export default function VotePage() {
     }
 
     return (
-        <div>
-            <div>
-            <h2>Active Proposals</h2>
-            <form
+        <div className="VotePage">
+            <div className="VotePage-Innerblock">
+            <form className="VotePage-form"
               onSubmit={async (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -192,7 +212,7 @@ export default function VotePage() {
             >
               {
                   displayed.length ? displayed : 
-                    <div className="Non-Active">
+                    <div className="VotePage-Proposals-NonActive">
                         No Active proposals at the moment, feel free to initiate one by interacting with the contract
                     </div>
               }

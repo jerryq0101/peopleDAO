@@ -1,0 +1,45 @@
+.VotePage {
+    margin: 10vh 0 30vh 0;
+}
+
+.VotePage-Innerblock {
+    padding: 0 5% 0 5%;
+    background-color: aliceblue;
+}
+
+.VotePage-Proposals-NonActive {
+    font-size: 30px;
+    font-weight: 700;
+    margin: 0 0 4vh 0;
+}
+
+.VotePage-card {
+    margin-bottom: 2vh;
+    padding: 2.5% 2% 2.3% 5%;
+    background-color: white;
+    border: 1px solid #B1B1B1;
+    box-sizing: border-box;
+    box-shadow: -2px 4px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    
+    display: flex;
+    flex-direction: row;
+}
+    .VotePage-card-right {
+        background-color: white;
+        margin-left: auto; 
+    }
+
+.VotePage-card-Query {
+    font-size: 20px;
+    font-weight: 700;
+}
+.VotePage-card-Choices {
+    margin: 1% 0 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+}
+    .VotePage-card-choice {
+        margin: 0 5% 0 0;
+    }

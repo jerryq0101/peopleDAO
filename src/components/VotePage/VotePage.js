@@ -3,32 +3,31 @@ import "./VotePage.css"
 import ComingSoon from "../ComingSoon.js"
 import sdk from '../scripts/initialize-sdk.mjs';
 import {ethers} from 'ethers'
-import { AddressZero} from '@ethersproject/constants'
-import { ProposalState, ThirdwebSDK } from '@thirdweb-dev/sdk';
+import { AddressZero } from "@ethersproject/constants";
+import { ProposalState , ChainId} from '@thirdweb-dev/sdk';
+import {useAddress, useMetamask, useEditionDrop, useToken, useVote, useNetwork } from "@thirdweb-dev/react";
 import logo from '../Logo.png'
 import ProgressBar from './ProgressBar.js';
+import pplmeta from './peopletransfer.json';
 
 export default function VotePage() {
     let signer = {};
     let address = ""
     const [proposals, setProposals] = useState([]);
-    const [isVoting, setIsVoting] = useState(false);
-    const [hasVoted, setHasVoted] = useState(false);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const sdk = new ThirdwebSDK(provider)
-    let vote = sdk.getVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
-    let token = sdk.getToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
-
-    const crowdfundingAddress = "0x9A7a3FE1eE6C6Bc47958BFE17492EE0Bdd935Eab";
-    const [totalSupply, setTotalSupply] = useState(0);
-    const [displayed, setDisplayed] = useState([]);
+    let vote = useVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
+    let token = useToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
+    let transferContractW;
+    let transferContractS;
     const [loading, setLoading] = useState(true);
+    const [isVoting, setIsVoting] = useState(false);
 
     useEffect(() => {
         setTimeout(() => {
             setLoading(false);
-        }, 1000)
-    }, [])
+        }, 1000);
+
+    }, []);
 
     useEffect(() => {
         console.log("Provider: ", provider);
@@ -42,94 +41,82 @@ export default function VotePage() {
             address = addy;
         })
         sdk.updateSignerOrProvider(signer);
-    }, [provider])
+        transferContractW = new ethers.Contract("0x7b06BDa105ef9A9028c9f7AA749B856754a4C66a", pplmeta.abi, provider);
+        transferContractS = transferContractW.connect(signer);
+    }, [provider]);
 
-    // Get all the proposals from the contract and execute
-    useEffect (async () => {
-        try {
-            const propos = await vote.getAll();
-            setProposals(propos);
-            console.log("Proposals: ", propos);
-        } catch (error) {
-            console.log("Failed to get and execute proposals", error);
+    // useEffect(() => {
+    //   // Passing the signer to the sdk
+    //   sdk.updateSigner
+    //   // so we can use interact 
+    // });
+
+    useEffect(()=>{
+      // Getting all of the proposals 
+        // vote is the vote module
+      vote.getAll().then((list) => {
+          setProposals(list);
+          console.log("Proposals:", proposals);
+      })
+      .catch((error) => {
+        console.error("Failed to get all proposals", error);
+      })
+    }, [])
+
+    const [hasFunds, setHasFunds] = useState(false);
+    const [hasVoted, setHasVoted] = useState(false);
+
+    // Did user fund dao yet
+    useEffect(async ()=>{
+      if (!address) {
+        return;
+      } 
+
+      try {
+        const balance = await token.balanceOf(address);
+        if (ethers.utils.parseUnits(balance, 18) > 0) {
+          setHasFunds(true);
+          console.log("This user has funded the DAO");
+        } else {
+          setHasFunds(false);
+          console.log("This user did not fund the dao yet");
         }
+      } catch (error) {
+        setHasFunds(false);
+        console.log("Failed to get balance", error);
+      }
+    }, [address]);
 
-        try {
-          const totalSup = await token.totalSupply();
-          const totalSupBN = await totalSup.value._hex;
-          const totalSupInt = await parseInt(totalSupBN, 16);
-          await setTotalSupply(totalSupInt);
-       } catch (error) {
-         console.error("Failed to set total supply")
-       }
-    }, []);
-    
-    useEffect(() => {
-        
-        setDisplayed(
-            proposals
-            .filter((proposal)=> {
-                if (proposal.state === 1) {
-                    return true;
-                } 
-                return false;
-            })
-            .map((proposal) => {
-                    const forVotesBN = proposal.votes[1].count._hex;
-                    const forVotesInt = parseInt(forVotesBN, 16);
-                    console.log("For Votes for this proposal: ", forVotesInt);
-                    const percentageFinished = forVotesInt / totalSupply * 100;
-                    console.log("Percentage Finished:", percentageFinished);
-                    
-                    return (
-                        <div key={proposal.proposalId} className="VotePage-card">
-                            <div className="VotePage-card-left">
-                              <h5 className="VotePage-card-Query">{proposal.description}</h5>
-                              <div className="VotePage-card-Choices">
-                                  {proposal.votes.map(({ type, label }) => {  
-                                          return (
-                                              <div key={type} className="VotePage-card-choice">
-                                                  <input
-                                                      type="radio"
-                                                      id={proposal.proposalId + "-" + type}
-                                                      name={proposal.proposalId}
-                                                      value={type}
-                                                      //default the "abstain" vote to checked
-                                                      defaultChecked={type === 2}
-                                                  />
-                                                  <label htmlFor={proposal.proposalId + "-" + type}>
-                                                  {label}
-                                                  </label>
-                                              </div>
-                                          );
-                                      }
-                                  )}
-                              </div>
-                            </div>
-                            <div className="VotePage-card-right">
-                              <ProgressBar done={percentageFinished} />
-                            </div>
-                            
-                        </div>
-                    )
-                
-            })
-        )
-        console.log("Displayed Elements:", displayed);
-    }, [proposals, totalSupply])
-    
+    // Did user vote on the latest proposal
+    useEffect(async () => {
+      // check if proposal has been loaded
+      if (!proposals.length) {
+        return;
+      }
+
+      try {
+        const voteStatus = await vote.hasVoted(proposals[proposals.length-1].proposalId, address);
+        setHasVoted(voteStatus);
+        console.log("Successfully got hasvoted or not")
+      } catch (error) {
+        console.error("Failed to get voteStatus for last proposal", error);
+      }
+    }, [proposals, address])
+
     if (loading) {
-        return (
-            <div className="loader-container">
-                <img src={logo} className="loader"></img>
-            </div>
-        )
+      return (
+          <div className="loader-container">
+              <img src={logo} className="loader"></img>
+          </div>
+      )
     }
+    
 
     return (
-        <div className="VotePage">
-            <div className="VotePage-Innerblock">
-            <form className="VotePage-form"
+      <div className="VotePage">
+          <div>
+            <h2>Active Proposals</h2>
+            <form
               onSubmit={async (e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -138,15 +125,7 @@ export default function VotePage() {
                 setIsVoting(true);
 
                 // lets get the votes from the form for the values
-                const votes = 
-                  proposals
-                .filter((proposal)=> {
-                    if (proposal.state === 1) {
-                        return true;
-                    } 
-                    return false;
-                })
-                .map((proposal) => {
+                const votes = proposals.map((proposal) => {
                   const voteResult = {
                     proposalId: proposal.proposalId,
                     //abstain by default
@@ -169,25 +148,22 @@ export default function VotePage() {
                 try {
                   //we'll check if the wallet still needs to delegate their tokens before they can vote
                   const delegation = await token.getDelegationOf(address);
-                  console.log("Delegation:", delegation);
-                  // // if the delegation is the 0x0 address that means they have not delegated their governance tokens yet
+                  // if the delegation is the 0x0 address that means they have not delegated their governance tokens yet
                   if (delegation === AddressZero) {
-                  //   //if they haven't delegated their tokens yet, we'll have them delegate them before voting
+                    //if they haven't delegated their tokens yet, we'll have them delegate them before voting
                     await token.delegateTo(address);
                   }
                   // then we need to vote on the proposals
                   try {
                     await Promise.all(
-                      votes.map(async ({ proposalId, vote:_vote }) => {
+                      votes.map(async ({ proposalId, vote: _vote }) => {
                         // before voting we first need to check whether the proposal is open for voting
                         // we first need to get the latest state of the proposal
-                        console.log("ID", proposalId);
                         const proposal = await vote.get(proposalId);
-                        console.log("Proposal", proposal)
                         // then we check if the proposal is open for voting (state === 1 means it is open)
                         if (proposal.state === 1) {
                           // if it is open for voting, we'll vote on it
-                          return vote.vote(proposalId, _vote, "I Support this");
+                          return vote.vote(proposalId, _vote);
                         }
                         // if the proposal is not open for voting we just return nothing, letting us continue
                         return;
@@ -225,13 +201,30 @@ export default function VotePage() {
                 }
               }}
             >
-              {
-                  displayed.length ? displayed : 
-                    <div className="VotePage-Proposals-NonActive">
-                        No Active proposals at the moment, feel free to initiate one by interacting with the contract
-                    </div>
-              }
-              <button disabled={isVoting || hasVoted} type="submit" className="VotePage-Submit">
+              {proposals.map((proposal) => (
+                <div key={proposal.proposalId} className="VotePage-card">
+                  <h5 className="VotePage-card-Query">{proposal.description}</h5>
+                  <div className="VotePage-card-Choices">
+                    {proposal.votes.map(({ type, label }) => (
+                      <div className="VotePage-card-choice" key={type}>
+                        <input
+                          type="radio"
+                          id={proposal.proposalId + "-" + type}
+                          name={proposal.proposalId}
+                          value={type}
+                          //default the "abstain" vote to checked
+                          defaultChecked={type === 2}
+                          
+                        />
+                        <label htmlFor={proposal.proposalId + "-" + type}>
+                          {label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <button className="VotePage-Submit" disabled={isVoting || hasVoted} type="submit">
                 {isVoting
                   ? "Voting..."
                   : hasVoted
@@ -239,13 +232,14 @@ export default function VotePage() {
                     : "Submit Votes"}
               </button>
               {!hasVoted && (
-                <small className="VotePage-Submit-desc">
+                <small className='VotePage-Submit-desc'>
                   This will trigger multiple transactions that you will need to
                   sign.
                 </small>
               )}
             </form>
           </div>
-        </div>
+      </div>
     )
+    
 }

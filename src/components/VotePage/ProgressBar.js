@@ -1,7 +1,6 @@
 import React from 'react'
 import './ProgressBar2.css'
 export default function ProgressBar(props) {
-
     const [style, setStyle] = React.useState({});
 
     setTimeout(() => {

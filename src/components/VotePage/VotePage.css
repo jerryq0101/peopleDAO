@@ -11,6 +11,10 @@
     font-weight: 700;
     margin: 0 0 4vh 0;
 }
+    .VotePage-proposal-button {
+        padding: 9px 20px;
+        font-size: 10px;
+    }
 
 .VotePage-card {
     margin-bottom: 2vh;
@@ -24,6 +28,7 @@
     display: flex;
     flex-direction: column;
 }
+
     .VotePage-card-right {
         background-color: white;
         margin-left: auto; 
@@ -33,6 +38,7 @@
     font-size: 20px;
     font-weight: 700;
 }
+
 .VotePage-card-Choices {
     margin: 1% 0 0 0;
     display: flex;
@@ -41,7 +47,7 @@
     justify-content: flex-start;
 }
     .VotePage-card-choice {
-        margin: 0 2% 0 0;
+        margin: 1% 2% 0 0;
     }
 
 

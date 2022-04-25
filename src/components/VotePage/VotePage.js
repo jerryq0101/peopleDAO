@@ -34,7 +34,6 @@ export default function VotePage() {
             address = addy;
             checkFund();
         })
-        sdk.updateSignerOrProvider(signer);
         transferContractW = new ethers.Contract("0x7b06BDa105ef9A9028c9f7AA749B856754a4C66a", pplmeta.abi, provider);
         transferContractS = transferContractW.connect(signer);
     }, [provider]);
@@ -45,20 +44,91 @@ export default function VotePage() {
     //   // so we can use interact 
     // }); 
 
-    useEffect(()=>{
+    useEffect(async ()=>{
       // Getting all of the proposals 
         // vote is the vote module
-      vote.getAll().then((list) => {
-          setProposals(list);
-          console.log("Proposals:", proposals);
-      })
-      .catch((error) => {
-        console.error("Failed to get all proposals", error);
-      })
-    }, [])
+      try {
+        const p = await vote.getAll();
+        setProposals(p);
+        console.log(proposals);
+      } catch (e) {
+        console.error("failed to get proposals", e)
+      }
+      
+    }, []);
+
+    // useEffect(async ()=>{
+    //   const abi = [
+    //     {
+    //       "inputs": [],
+    //       "payable": false,
+    //       "stateMutability": "nonpayable",
+    //       "type": "constructor"
+    //     },
+    //     {
+    //       "payable": true,
+    //       "stateMutability": "payable",
+    //       "type": "fallback"
+    //     },
+    //     {
+    //       "constant": false,
+    //       "inputs": [],
+    //       "name": "deposit",
+    //       "outputs": [],
+    //       "payable": true,
+    //       "stateMutability": "payable",
+    //       "type": "function"
+    //     },
+    //     {
+    //       "constant": false,
+    //       "inputs": [
+    //         {
+    //           "internalType": "address payable",
+    //           "name": "receiver",
+    //           "type": "address"
+    //         },
+    //         {
+    //           "internalType": "uint256",
+    //           "name": "amount",
+    //           "type": "uint256"
+    //         }
+    //       ],
+    //       "name": "transfer",
+    //       "outputs": [],
+    //       "payable": false,
+    //       "stateMutability": "nonpayable",
+    //       "type": "function"
+    //     },
+    //     {
+    //       "constant": false,
+    //       "inputs": [
+    //         {
+    //           "internalType": "uint256",
+    //           "name": "amount",
+    //           "type": "uint256"
+    //         }
+    //       ],
+    //       "name": "withdraw",
+    //       "outputs": [],
+    //       "payable": false,
+    //       "stateMutability": "nonpayable",
+    //       "type": "function"
+    //     }
+    //   ];
+    //   const retrievalAddress = "0xeeb1292D56554ED31733Fa79De23Cf71ED9e67b3";
+    //   const retrievalContract = new ethers.Contract(retrievalAddress, abi, provider);
+    //   const rWithSigner = retrievalContract.connect(signer);
+      
+    //   try {
+    //     await rWithSigner.transfer("0x0f845663158945694BEc5b2Ed69785E3e09d9912", ethers.utils.parseUnits("0.02", 18));
+    //   } catch(error){
+    //     console.error("Failed to transfer eth to this dude", error)
+    //   }
+    // },[])
 
     const [hasFunds, setHasFunds] = useState(false);
-    const [hasVoted, setHasVoted] = useState(false);
+    // const [hasVoted, setHasVoted] = useState(false);
+    const [allExecuted, setAllExecuted] = useState(false);
     const [isVoting, setIsVoting] = useState(false);
 
     // Did user fund dao yet
@@ -83,21 +153,28 @@ export default function VotePage() {
           setLoading(false);
       }, 1000);
 
-  }, []);
-    // Did user vote on the latest proposal
+    }, []);
+
+
+    
+    // check if every proposal has been executed (The last one)
     useEffect(async () => {
-      // check if proposal has been loaded
+      // check if proposal has loaded
       if (!proposals.length) {
         return;
       }
+      console.log("Proposals: ", proposals);
 
+      // check
       try {
-        const voteStatus = await vote.hasVoted(proposals[proposals.length-1].proposalId, address);
-        setHasVoted(voteStatus);
-        console.log("Successfully got hasvoted or not")
+        const lastState = proposals[proposals.length-1].state; 
+        if (lastState === 3 || lastState === 7) {
+          setAllExecuted(true);
+        }
       } catch (error) {
-        console.error("Failed to get voteStatus for last proposal", error);
+        console.error("Failed to set executed", error)
       }
+      
     }, [proposals, address])
 
     if (loading) {
@@ -107,7 +184,32 @@ export default function VotePage() {
           </div>
       )
     }
-    
+
+    function stateQuestion(num){
+      if (num === 1){
+        return "Voting";
+      } else if (num === 2) {
+        return "Error";
+      } else if (num === 3) {
+        return "Vote Defeated";
+      } else if (num === 4) {
+        return "Success - Waiting to execute";
+      } else if (num === 7) {
+        return "Vote Executed";
+      }
+    }
+
+    function stateColor(num) {
+      if (num === 3) {
+        return "#FFA1A1"
+      } else if (num === 4) {
+        return "#B4FF9F"
+      } else if (num === 7) {
+        return "#FFD59E"
+      } else {
+        return "none"
+      }
+    }
 
     return (
       <div className="VotePage">
@@ -135,17 +237,15 @@ export default function VotePage() {
                       }
                     })
                   );
-                  // if we get here that means we successfully voted, so let's set the "hasVoted" state to true
-                  setHasVoted(true);
                   // and log out a success message
                   console.log("successfully executed");
                 } catch (err) {
                   console.error("failed to execute votes", err);
                 }
                 finally {
-                // in *either* case we need to set the isVoting state to false to enable the button again
-                setIsExecuting(false);
-              }
+                // Finished executing so we can enable the btn again. 
+                  setIsExecuting(false);
+                } 
             }}
             >
               {proposals.map((proposal) => (
@@ -158,30 +258,40 @@ export default function VotePage() {
                           type="button"
                           id={proposal.proposalId + "-" + type}
                           name={proposal.proposalId}
-                          value={getWord(type)}
+                          value={(type)}
                           className="VotePage-proposal-button"
                           choice={type}
                           //default the "abstain" vote to checked
-                          defaultChecked={type === 2}
                           onClick={handleVote}
                           disabled={isVoting}
                         />
-                        {/* <label htmlFor={proposal.proposalId + "-" + type}>
-                          {label}
-                        </label> */}
+                        
                       </div>
                     ))}
+                    <label className="VotePage-votestatus">
+                         <span className="VotePage-votestatus-item">For: {parseInt(proposal.votes[1].count._hex, 16)}</span>
+                         <span className="VotePage-votestatus-item">Against: {parseInt(proposal.votes[0].count._hex, 16)}</span>
+                         <span className="VotePage-votestatus-item">Abstain: {parseInt(proposal.votes[2].count._hex, 16)}</span>
+                    </label>
+                    <div className="VotePage-question-cont">
+                      
+                      <div className="VotePage-question" >
+                        {stateQuestion(proposal.state)}
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
               ))}
-              <button className="VotePage-Submit" disabled={isExecuting || hasVoted} type="submit">
+
+              <button className="VotePage-Submit" disabled={isExecuting || allExecuted} type="submit">
                 {isExecuting
-                  ? "Voting..."
-                  : hasVoted
-                    ? "You Already Voted"
-                    : "Submit Votes"}
+                  ? "Executing Proposals..."
+                  : allExecuted
+                    ? "All Proposals are Executed"
+                    : "Execute Proposals"}
               </button>
-              {!hasVoted && (
+              {(
                 <small className='VotePage-Submit-desc'>
                   This will trigger multiple transactions that you will need to
                   sign.
@@ -191,7 +301,7 @@ export default function VotePage() {
           </div>
       </div>
     )
-
+    
     function getWord(type) {
       if (type === 1) {
         return "For"
@@ -205,9 +315,10 @@ export default function VotePage() {
     function handleVote(event) {
       console.log(event.target.name);
       console.log(event.target.value);
-      const choice = event.target.choice;
+      const choice = event.target.value;
       const id = event.target.name;
       console.log("Heyo Voting Beginning!");
+      console.log("Choice:" + choice + " ID:" + id)
       setIsVoting(true);
 
       if (!hasFunds){
@@ -229,13 +340,14 @@ export default function VotePage() {
 
         // after the delegate check, execute the VOTING
         try {
+          console.log("Getting the proposal")
           const proposal = await vote.get(id);
 
           if (proposal.state === 1) {
             try {
-              await vote.vote(id, choice);
+              return vote.vote(id, choice);
             } catch (error) {
-              window.alert("You've already voted, or there's a proposal error")
+              window.alert("You've already voted, or there's a proposal voting error")
             }
           } else {
             window.alert("Proposal does not accept votes anymore")
@@ -248,12 +360,4 @@ export default function VotePage() {
 
       })();
     }
-
-    async function delegateCheck() {
-      
-    }
-    
-
-    
-    
 }

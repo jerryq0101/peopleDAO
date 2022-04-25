@@ -77,3 +77,26 @@
     font-size: 13px;
     color: gray;
 }
+
+.VotePage-votestatus {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3vh;
+    align-items: flex-start;
+}
+    .VotePage-votestatus-item {
+    }
+
+.VotePage-question {
+    background-color: aliceblue;
+    padding: 20px;
+    margin-left: auto; 
+    text-align: center;
+}
+    .VotePage-question-cont{
+        width: 300px;
+        background-color: none;
+        margin-left: auto;
+        padding: 0 20px;
+
+    }

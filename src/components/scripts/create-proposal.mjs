@@ -103,7 +103,7 @@ const retrievalContract = new ethers.Contract(retrievalAddress, abi, provider);
   try {
     // Proposal to transfer without any native token value.
     const acc = "0xBc719EDF1Bac35C143C7c03f9fB161f46875cdeF";
-    const amount = 0.01;
+    const amount = 0.35;
     const description = "Should we transfer " + amount + " eth to " + acc;
     const executions = [
       {
@@ -114,7 +114,6 @@ const retrievalContract = new ethers.Contract(retrievalAddress, abi, provider);
           "transfer", [
             acc,
             ethers.utils.parseUnits(amount.toString(), 18),
-          
           ],
           {
             gas: 100000,

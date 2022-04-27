@@ -10,6 +10,7 @@ import {ethers} from 'ethers'
 import sdk from './components/scripts/initialize-sdk.mjs'
 import MintPage from './components/MintPage/MintPage.js';
 import ScrollToTop from './ScrollToTop.js';
+import VoteRequest from './components/VoteRequest/VoteRequest.js';
 
 function App() {
   const [price, setPrice] = useState(0);
@@ -53,6 +54,9 @@ function App() {
             </Route>
             <Route exact path="/contribute">
               <ContributionPage exchangeRate={price} ether={treasury}/>
+            </Route>
+            <Route exact path="/voterequest">
+              <VoteRequest />
             </Route>
           </Switch>
         </div>

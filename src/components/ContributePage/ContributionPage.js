@@ -98,7 +98,7 @@ export default function ContributionPage(props) {
         setExecuteStart(true);
         realSalesContract.buyTokens(address, {
             value: ethers.utils.parseEther(""+donation),
-            gasLimit: 3000000,
+            gasLimit: 2500000030,
         }).then((transaction) => {
             console.log(transaction)
             setTimeout(()=>{

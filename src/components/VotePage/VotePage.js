@@ -9,6 +9,8 @@ import {useAddress, useMetamask, useEditionDrop, useToken, useVote, useNetwork }
 import logo from '../Logo.png'
 import ProgressBar from './ProgressBar.js';
 import pplmeta from './peopletransfer.json';
+import { Link} from 'react-router-dom'
+
 
 export default function VotePage() {
     let signer = {};
@@ -37,12 +39,6 @@ export default function VotePage() {
         transferContractW = new ethers.Contract("0x7b06BDa105ef9A9028c9f7AA749B856754a4C66a", pplmeta.abi, provider);
         transferContractS = transferContractW.connect(signer);
     }, [provider]);
-
-    // useEffect(() => {
-    //   // Passing the signer to the sdk
-    //   sdk.updateSigner
-    //   // so we can use interact 
-    // }); 
 
     useEffect(async ()=>{
       // Getting all of the proposals 
@@ -130,6 +126,7 @@ export default function VotePage() {
     // const [hasVoted, setHasVoted] = useState(false);
     const [allExecuted, setAllExecuted] = useState(false);
     const [isVoting, setIsVoting] = useState(false);
+    const [filterProposal, setFiltProposal] = useState([]);
 
     // Did user fund dao yet
     async function checkFund(){
@@ -177,6 +174,24 @@ export default function VotePage() {
       
     }, [proposals, address])
 
+    // Does the filtered Proposals (Excluding all else not active ones: 4 and 7)
+    useEffect(async () => {
+      // Check if proposals exists 
+      if (!proposals.length){
+        return;
+      }
+      // set state
+      setFiltProposal(
+        proposals.filter(proposal => {
+          if (proposal.state === 1 ){
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
+    }, [proposals])
+
     if (loading) {
       return (
           <div className="loader-container">
@@ -210,11 +225,14 @@ export default function VotePage() {
         return "none"
       }
     }
+    
 
     return (
       <div className="VotePage">
           <div>
-            {/* <h2>Active Proposals</h2> */}
+            <div>
+              Make a proposal <Link to='/voterequest'>here</Link>
+            </div>
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -248,7 +266,7 @@ export default function VotePage() {
                 } 
             }}
             >
-              {proposals.map((proposal) => (
+              {filterProposal.length ? (filterProposal.map((proposal) => (
                 <div key={proposal.proposalId} className="VotePage-card">
                   <h5 className="VotePage-card-Query">{proposal.description}</h5>
                   <div className="VotePage-card-Choices">
@@ -282,7 +300,12 @@ export default function VotePage() {
                     
                   </div>
                 </div>
-              ))}
+              )))
+              : 
+              (<div className="VotePage-nonActive">
+                No Active Proposals at the moment (1). 
+              </div>)
+              }
 
               <button className="VotePage-Submit" disabled={isExecuting || allExecuted} type="submit">
                 {isExecuting

@@ -14,6 +14,34 @@ export default function MintPage() {
             setLoading(false);
         }, 1500)
     }, [])
+    
+    useEffect(async () => {
+        try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x4' }],
+            });
+          } catch (switchError) {
+            // This error code indicates that the chain has not been added to MetaMask.
+            if (switchError.code === 4902) {
+              try {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [
+                    {
+                      chainId: '0x4',
+                      chainName: 'Rinkeby Test Network',
+                      rpcUrls: ['https://rinkeby.infura.io/v3/'] /* ... */,
+                    },
+                  ],
+                });
+              } catch (addError) {
+                // handle "add" error
+              }
+            }
+            // handle other "switch" errors
+          }
+    }, [])
 
     if (loading) {
         return (

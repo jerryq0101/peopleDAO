@@ -9,6 +9,34 @@ export default function VoteRequest() {
     let token = useToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
     const [signer, setSigner] = useState({});
 
+    useEffect(async () => {
+        try {
+            await window.ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: '0x4' }],
+            });
+          } catch (switchError) {
+            // This error code indicates that the chain has not been added to MetaMask.
+            if (switchError.code === 4902) {
+              try {
+                await window.ethereum.request({
+                  method: 'wallet_addEthereumChain',
+                  params: [
+                    {
+                      chainId: '0x4',
+                      chainName: 'Rinkeby Test Network',
+                      rpcUrls: ['https://rinkeby.infura.io/v3/'] /* ... */,
+                    },
+                  ],
+                });
+              } catch (addError) {
+                // handle "add" error
+              }
+            }
+            // handle other "switch" errors
+          }
+    }, [])
+
     const abi = [
         {
           "inputs": [],

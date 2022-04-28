@@ -53,6 +53,34 @@ export default function VotePage() {
       
     }, []);
 
+    useEffect(async () => {
+      try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x4' }],
+          });
+        } catch (switchError) {
+          // This error code indicates that the chain has not been added to MetaMask.
+          if (switchError.code === 4902) {
+            try {
+              await window.ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [
+                  {
+                    chainId: '0x4',
+                    chainName: 'Rinkeby Test Network',
+                    rpcUrls: ['https://rinkeby.infura.io/v3/'] /* ... */,
+                  },
+                ],
+              });
+            } catch (addError) {
+              // handle "add" error
+            }
+          }
+          // handle other "switch" errors
+        }
+  }, [])
+
     // useEffect(async ()=>{
     //   const abi = [
     //     {
@@ -165,7 +193,7 @@ export default function VotePage() {
       // check
       try {
         const lastState = proposals[proposals.length-1].state; 
-        if (lastState === 3 || lastState === 7) {
+        if (lastState === 3 || lastState === 7 || lastState === 1) {
           setAllExecuted(true);
         }
       } catch (error) {
@@ -183,7 +211,7 @@ export default function VotePage() {
       // set state
       setFiltProposal(
         proposals.filter(proposal => {
-          if (proposal.state === 1 ){
+          if (proposal.state === 1){
             return true;
           } else {
             return false;
@@ -311,7 +339,7 @@ export default function VotePage() {
                 {isExecuting
                   ? "Executing Proposals..."
                   : allExecuted
-                    ? "All Proposals are Executed"
+                    ? "All Proposals executed"
                     : "Execute Proposals"}
               </button>
               {(

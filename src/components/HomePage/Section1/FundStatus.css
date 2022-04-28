@@ -3,7 +3,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color:none;
+    background-color: none;
+    justify-content: center;
 }
 
 .Fund-Progress {

@@ -5,7 +5,7 @@
 }
 
 .VoteRequest-block {
-    margin: 1% 5vh 2% 5vh;
+    margin: 1% 5vh 1% 5%;
 }
 
 .VoteRequest-text {
@@ -21,8 +21,8 @@
 .VoteRequest-textarea {
     margin-top: 10px;
     height: 50px;
-    padding: 0.2em 0.4em;
-    width:80%;
+    padding: 0.3em 0.4em;
+    width: 80%;
     border: 2px solid #000000;
     box-sizing: border-box;
     border-radius: 8px;
@@ -52,10 +52,17 @@ input[type=number]:focus {
 
 .VoteRequest-select {
     margin: 0.7em 0 0.2em 0;
-    padding: 0.7em 1em 0.7em 1em;
+    padding: 0.7em 1em 0.7em 0.3em;
     border: 2px solid #000000;
+    border-radius: 8px;
     box-sizing: border-box;
     transition: all ease 0.2s;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 36px;
+    width: 40%;
 }
 
 .VoteRequest-desc {
@@ -87,4 +94,5 @@ input[type=number]:focus {
 .VoteRequest-btn {
     padding: 1em 3em 1em 3em;
     background-color: black;
+    border-radius: 8px;
 }

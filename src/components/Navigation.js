@@ -8,7 +8,7 @@ import './Navigation.css'
 
 export default function Navigation() {
   return (
-    <div>
+    <div className="nav-bar">
       <header>
         <Link to="/" style={{textDecoration: 'none' }}>
           <div class="logo">

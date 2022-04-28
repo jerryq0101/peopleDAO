@@ -1,5 +1,90 @@
 .VoteRequest-Blocks {
     display: flex;
     flex-direction: column;
+    margin: 5vh;
+}
 
+.VoteRequest-block {
+    margin: 1% 5vh 2% 5vh;
+}
+
+.VoteRequest-text {
+    text-align: left;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 55px;
+    margin-bottom: 0;
+}
+
+.VoteRequest-textarea {
+    margin-top: 10px;
+    height: 50px;
+    padding: 0.2em 0.4em;
+    width:80%;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    /* Text elements inside the box */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 36px;
+
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    transition: all ease 0.2s;
+    resize: none;
+}
+
+textarea[type=text]:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+input[type=number]:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 4px rgba(0, 0, 0, 0.25);
+}
+
+.VoteRequest-select {
+    margin: 0.7em 0 0.2em 0;
+    padding: 0.7em 1em 0.7em 1em;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    transition: all ease 0.2s;
+}
+
+.VoteRequest-desc {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.VoteRequest-number {
+    margin-top: 14px;
+    height: 50px;
+    padding: 0 0 0 0.4em;
+    width:80%;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    border-radius: 8px;
+
+    /* Text elements inside the box */
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 36px;
+
+    background: #FFFFFF;
+    border: 2px solid #000000;
+    box-sizing: border-box;
+    transition: all ease 0.2s;
+}
+
+.VoteRequest-btn {
+    padding: 1em 3em 1em 3em;
+    background-color: black;
 }

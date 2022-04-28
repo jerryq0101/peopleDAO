@@ -135,6 +135,7 @@ export default function VoteRequest() {
             console.log("✅ Successfully created proposal to fund eth", proposal);
         } catch (error) {
                 console.error("failed to create first proposal", error);
+                window.alert("Proposal failed. Do you have enough governance tokens?")
         }
     }
     
@@ -143,43 +144,58 @@ export default function VoteRequest() {
         <div>
             <div className="VoteRequest-Form">
                 <div className="VoteRequest-Blocks">
-                    <label>
-                        Proposal Description
+                    <div className="VoteRequest-block">
+                        <div className="VoteRequest-text">Proposal Description</div>
+                        <div className="VoteRequest-desc">
+                            The message shown to voters.
+                        </div>
                         <textarea name="proposalDesc" 
                             value={formData.proposalDesc} 
                             onChange={handleChange} 
                             type="text"
+                            className="VoteRequest-textarea"
                         >
                         </textarea>
-                    </label>
-                    <label>
-                        Proposal Type
+                    </div>
+                    <div className="VoteRequest-block">
+                        <div className="VoteRequest-text">Proposal Type</div>
+                        <div className="VoteRequest-desc">
+                            Who is being funded
+                        </div>
                         <select name="proposalType"
                             value={formData.proposalType}
                             onChange={handleChange}
+                            className="VoteRequest-select"
                         >
-                            <option value="addyFund">Funding people</option>
-                            <option value="bruh">Funding bruhs</option>
+                            <option value="addyFund">Requesting funding to an address</option>
                         </select>
-                    </label>
-                    <label>
-                        Recipient
+                    </div>
+                    <div className="VoteRequest-block">
+                        <div className="VoteRequest-text">Receipient</div>
+                        <div className="VoteRequest-desc">Address being funded</div>
                         <textarea name="receipient" 
                             value={formData.receipient} 
                             onChange={handleChange} 
                             type="text"
+                            className="VoteRequest-textarea"
                         >
                         </textarea>
-                    </label>
-                    <label>
-                        Amount
+                    </div>
+                    <div className="VoteRequest-block">
+                        <div className="VoteRequest-text">Amount</div>
+                        <div className="VoteRequest-desc">
+                            Amount of Ether requesting
+                        </div>
                         <input type="number"
                             value={formData.amount}
                             onChange={handleChange}
                             name="amount"
+                            className="VoteRequest-number"
                         ></input>                        
-                    </label>
-                    <button onClick={handleProposal} >submit a proposal</button>
+                    </div>
+                    <div className="VoteRequest-block">
+                        <button className="VoteRequest-btn" onClick={handleProposal} >Submit proposal</button>
+                    </div>
                 </div>
             </div>
             

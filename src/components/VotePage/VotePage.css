@@ -54,14 +54,14 @@
 .VotePage-Submit {
     font-size: 20px;
     font-family: 400;
-    width: 15vh;
+    max-width: 20vh;
     padding: 1%;
     color: black;
     background-color: white;
     border: 1px solid black;
     border-radius: 5px;
     transition: 0.5s;
-    margin: 0 1vh 0 0;
+    margin: 2vh 1vh 0 0;
 }
 
     .VotePage-Submit:hover {
@@ -76,6 +76,7 @@
 .VotePage-Submit-desc {
     font-size: 13px;
     color: gray;
+    width: 10vh;
 }
 
 .VotePage-votestatus {
@@ -106,4 +107,9 @@
 }
 .underline {
     text-decoration: underline;
+}
+
+.VotePage-topdesc {
+    margin-top: 0;
+    margin-bottom: 2em;
 }

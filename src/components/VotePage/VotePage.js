@@ -189,7 +189,7 @@ export default function VotePage() {
     return (
       <div className="VotePage">
           <div>
-            <div>
+            <div className="VotePage-topdesc">
               Make a proposal <Link to='/voterequest' className="underline">here</Link>. To make proposals or vote, <Link to="/contribute" className="underline">contribute</Link> eth and get governance tokens. 
             </div>
             <form

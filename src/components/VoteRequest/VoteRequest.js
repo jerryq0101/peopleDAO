@@ -253,7 +253,7 @@ export default function VoteRequest() {
                 </div>
             </div>
             <div className="VoteRequest-bottom">
-              *You need governance tokens to create a proposal. 
+              *You need 1 $PPL governance tokens to create a proposal. 
             </div>
         </div>
     )

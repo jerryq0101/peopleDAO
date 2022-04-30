@@ -96,3 +96,8 @@ input[type=number]:focus {
     background-color: black;
     border-radius: 8px;
 }
+
+.VoteRequest-bottom {
+    margin: 0 auto 5px 8%;
+    color: rgba(0, 0, 0, 0.5);
+}

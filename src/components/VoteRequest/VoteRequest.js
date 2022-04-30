@@ -122,7 +122,7 @@ export default function VoteRequest() {
     
 
     // Form changes
-    function handleChange(event){
+    const handleChange = (event) => {
         const {name, value} = event.target;
         //Lag 
           setFormData((prevState) => {
@@ -130,21 +130,25 @@ export default function VoteRequest() {
                 ...prevState,
                 [name]: value,
             }
-          })
-        console.log(formData);
+          });
 
-        if (!formData.proposalDesc || !formData.receipient || !formData.amount) {
-          setDisabled(true);
-        } else {
-          const biggerThanZero = formData.amount > 0;
-          const validAddress = ethers.utils.isAddress(formData.receipient);
-          const enoughDesc = formData.proposalDesc.length > 15;
-          if (biggerThanZero && validAddress && enoughDesc){
-            setDisabled(false);
-          }
-        }
-
+        
     }
+
+    // Checking changes in the data to change button situation
+    useEffect(()=>{
+      console.log(formData);
+      if (!formData.proposalDesc || !formData.receipient || !formData.amount) {
+        setDisabled(true);
+      } else {
+        const biggerThanZero = formData.amount > 0;
+        const validAddress = ethers.utils.isAddress(formData.receipient);
+        const enoughDesc = formData.proposalDesc.length > 15;
+        if (biggerThanZero && validAddress && enoughDesc){
+          setDisabled(false);
+        }
+      }
+    }, [formData])
   
 
 
@@ -248,7 +252,9 @@ export default function VoteRequest() {
                     </div>
                 </div>
             </div>
-            
+            <div className="VoteRequest-bottom">
+              *You need governance tokens to create a proposal. 
+            </div>
         </div>
     )
 }

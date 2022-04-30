@@ -117,30 +117,36 @@ export default function VoteRequest() {
         proposalType: "",
         receipient: "",
         amount: 0,
-    })
+    });
+    const [disabled, setDisabled] = useState(true);
+    
 
+    // Form changes
     function handleChange(event){
         const {name, value} = event.target;
-        setFormData((prevState) => {
+        //Lag 
+          setFormData((prevState) => {
             return {
                 ...prevState,
-                 [name]: value,
+                [name]: value,
             }
-        })
+          })
         console.log(formData);
-    }
 
-    function handleChange2(event) {
-        const {name, value} = event.target;
-        setFormData((prevState) => {
-            return {
-                ...prevState,
-                 [name]: value,
-            }
-        })
-        console.log(formData);
-        event.preventDefault();
+        if (!formData.proposalDesc || !formData.receipient || !formData.amount) {
+          setDisabled(true);
+        } else {
+          const biggerThanZero = formData.amount > 0;
+          const validAddress = ethers.utils.isAddress(formData.receipient);
+          const enoughDesc = formData.proposalDesc.length > 15;
+          if (biggerThanZero && validAddress && enoughDesc){
+            setDisabled(false);
+          }
+        }
+
     }
+  
+
 
     async function handleProposal(){
         try {
@@ -195,7 +201,7 @@ export default function VoteRequest() {
                         </div>
                         <textarea name="proposalDesc" 
                             value={formData.proposalDesc} 
-                            onChange={handleChange} 
+                            onChange={handleChange}
                             type="text"
                             className="VoteRequest-textarea"
                         >
@@ -238,7 +244,7 @@ export default function VoteRequest() {
                         ></input>                        
                     </div>
                     <div className="VoteRequest-block">
-                        <button className="VoteRequest-btn" onClick={handleProposal} >Submit proposal</button>
+                        <button className="VoteRequest-btn" onClick={handleProposal} disabled={disabled} >Submit proposal</button>
                     </div>
                 </div>
             </div>

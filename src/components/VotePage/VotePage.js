@@ -190,7 +190,7 @@ export default function VotePage() {
       <div className="VotePage">
           <div>
             <div>
-              Make a proposal <Link to='/voterequest' className="underline">here</Link>
+              Make a proposal <Link to='/voterequest' className="underline">here</Link>. To make proposals or vote, <Link to="/contribute" className="underline">contribute</Link> eth and get governance tokens. 
             </div>
             <form
               onSubmit={async (e) => {

@@ -163,9 +163,9 @@ export default function VotePage() {
       if (num === 1){
         return "Voting";
       } else if (num === 2) {
-        return "Error";
-      } else if (num === 3) {
         return "Vote Defeated";
+      } else if (num === 3) {
+        return "Vote error";
       } else if (num === 4) {
         return "Success - Waiting to execute";
       } else if (num === 7) {
@@ -246,8 +246,8 @@ export default function VotePage() {
                       </div>
                     ))}
                     <label className="VotePage-votestatus">
+                        <span className="VotePage-votestatus-item">Against: {parseInt(proposal.votes[0].count._hex, 16)}</span>
                          <span className="VotePage-votestatus-item">For: {parseInt(proposal.votes[1].count._hex, 16)}</span>
-                         <span className="VotePage-votestatus-item">Against: {parseInt(proposal.votes[0].count._hex, 16)}</span>
                          <span className="VotePage-votestatus-item">Abstain: {parseInt(proposal.votes[2].count._hex, 16)}</span>
                     </label>
                     <div className="VotePage-question-cont">
@@ -270,7 +270,7 @@ export default function VotePage() {
                 {isExecuting
                   ? "Executing Proposals..."
                   : allExecuted
-                    ? "All Proposals executed"
+                    ? "Not Available"
                     : "Execute Proposals"}
               </button>
               {(

@@ -17,7 +17,7 @@
     }
 
 .VotePage-card {
-    margin-bottom: 2vh;
+    margin-bottom: 3vh;
     padding: 2.5% 2% 2.3% 5%;
     background-color: white;
     border: 1px solid #B1B1B1;
@@ -61,7 +61,6 @@
     border: 1px solid black;
     border-radius: 5px;
     transition: 0.5s;
-    margin: 2vh 1vh 0 0;
 }
 
     .VotePage-Submit:hover {
@@ -76,6 +75,7 @@
 .VotePage-Submit-desc {
     font-size: 13px;
     color: gray;
+    margin: 10px;
 }
 
 .VotePage-votestatus {
@@ -110,5 +110,5 @@
 
 .VotePage-topdesc {
     margin-top: 0;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
 }

@@ -18,7 +18,7 @@ export const Footer = ({}) => {
         <div class="footer-container-2">
             <div class="footer-item footer-item-1">About us</div>
             <div class="footer-item footer-item-2">Mission</div>
-            <div class="footer-item footer-item-3">Contact us</div>
+            <div class="footer-item footer-item-3">Contact</div>
             <div class="footer-item footer-item-4"></div>
             <div class="footer-item footer-item-5"></div>
         </div>

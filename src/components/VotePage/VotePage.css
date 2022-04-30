@@ -1,5 +1,5 @@
 .VotePage {
-    margin: 10vh 20vh 30vh 5vh;
+    margin: 10vh 5% 30vh 5%;
 }
 
 .VotePage-Innerblock {
@@ -103,4 +103,7 @@
 
 .VotePage-nonActive {
     margin: 5px 0 5px 0;
+}
+.underline {
+    text-decoration: underline;
 }

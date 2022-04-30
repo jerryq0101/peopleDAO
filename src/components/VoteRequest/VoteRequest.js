@@ -2,12 +2,21 @@ import React, { useEffect, useState } from 'react';
 import {ethers} from 'ethers';
 import {useAddress, useMetamask, useEditionDrop, useToken, useVote, useNetwork } from "@thirdweb-dev/react";
 import './VoteRequest.css'
+import logo from '../Logo.png'
 
 export default function VoteRequest() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     let vote = useVote("0x289a8A52DdD41f7aFDd9D7760cFDe811974Ef753");
     let token = useToken("0x13531C50c086D5330E93D95B691EC2f88363cF61");
     const [signer, setSigner] = useState({});
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      setTimeout(() => {
+          setLoading(false);
+      }, 1000);
+
+    }, []);
 
     useEffect(async () => {
         try {
@@ -167,6 +176,13 @@ export default function VoteRequest() {
         }
     }
     
+    if (loading) {
+      return (
+          <div className="loader-container">
+              <img src={logo} className="loader"></img>
+          </div>
+      )
+    }
 
     return (
         <div>

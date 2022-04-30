@@ -4,6 +4,7 @@ import {ethers} from 'ethers';
 import file from './PPL_CrowdSale.json';
 import sdk from '../scripts/initialize-sdk.mjs';
 import logo from '../Logo.png'
+import {useAddress, useMetamask, useEditionDrop, useToken, useVote, useNetwork } from "@thirdweb-dev/react";
 
 export default function ContributionPage(props) {
     const [loading, setLoading] = useState(true);
@@ -13,7 +14,6 @@ export default function ContributionPage(props) {
             setLoading(false);
         }, 4500)
     }, [])
-
     
     const [treasury, setTreasury] = useState(0);
     const [donation, setDonation] = useState(0);
@@ -41,7 +41,6 @@ export default function ContributionPage(props) {
             address = addy;
         })
         salesContract = new ethers.Contract(saleContractAddress, file.abi, provider);
-        //console.log("Contract:", salesContract)
         realSalesContract = salesContract.connect(signer);
         console.log("realContract:", realSalesContract);
     })();

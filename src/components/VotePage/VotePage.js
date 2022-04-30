@@ -1,7 +1,6 @@
 import React, { useEffect, useState} from 'react'
 import "./VotePage.css"
 import ComingSoon from "../ComingSoon.js"
-import sdk from '../scripts/initialize-sdk.mjs';
 import {ethers} from 'ethers'
 import { AddressZero } from "@ethersproject/constants";
 import { ProposalState , ChainId} from '@thirdweb-dev/sdk';
@@ -81,74 +80,6 @@ export default function VotePage() {
         }
   }, [])
 
-    // useEffect(async ()=>{
-    //   const abi = [
-    //     {
-    //       "inputs": [],
-    //       "payable": false,
-    //       "stateMutability": "nonpayable",
-    //       "type": "constructor"
-    //     },
-    //     {
-    //       "payable": true,
-    //       "stateMutability": "payable",
-    //       "type": "fallback"
-    //     },
-    //     {
-    //       "constant": false,
-    //       "inputs": [],
-    //       "name": "deposit",
-    //       "outputs": [],
-    //       "payable": true,
-    //       "stateMutability": "payable",
-    //       "type": "function"
-    //     },
-    //     {
-    //       "constant": false,
-    //       "inputs": [
-    //         {
-    //           "internalType": "address payable",
-    //           "name": "receiver",
-    //           "type": "address"
-    //         },
-    //         {
-    //           "internalType": "uint256",
-    //           "name": "amount",
-    //           "type": "uint256"
-    //         }
-    //       ],
-    //       "name": "transfer",
-    //       "outputs": [],
-    //       "payable": false,
-    //       "stateMutability": "nonpayable",
-    //       "type": "function"
-    //     },
-    //     {
-    //       "constant": false,
-    //       "inputs": [
-    //         {
-    //           "internalType": "uint256",
-    //           "name": "amount",
-    //           "type": "uint256"
-    //         }
-    //       ],
-    //       "name": "withdraw",
-    //       "outputs": [],
-    //       "payable": false,
-    //       "stateMutability": "nonpayable",
-    //       "type": "function"
-    //     }
-    //   ];
-    //   const retrievalAddress = "0xeeb1292D56554ED31733Fa79De23Cf71ED9e67b3";
-    //   const retrievalContract = new ethers.Contract(retrievalAddress, abi, provider);
-    //   const rWithSigner = retrievalContract.connect(signer);
-      
-    //   try {
-    //     await rWithSigner.transfer("0x0f845663158945694BEc5b2Ed69785E3e09d9912", ethers.utils.parseUnits("0.02", 18));
-    //   } catch(error){
-    //     console.error("Failed to transfer eth to this dude", error)
-    //   }
-    // },[])
 
     const [hasFunds, setHasFunds] = useState(false);
     // const [hasVoted, setHasVoted] = useState(false);
@@ -259,7 +190,7 @@ export default function VotePage() {
       <div className="VotePage">
           <div>
             <div>
-              Make a proposal <Link to='/voterequest'>here</Link>
+              Make a proposal <Link to='/voterequest' className="underline">here</Link>
             </div>
             <form
               onSubmit={async (e) => {
